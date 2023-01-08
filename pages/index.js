@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/client";
 // Instantiate it
 const prisma = new PrismaClient();
 
-export default function Home() {
+export default function Home({ homes }) {
   return (
     <Layout>
       <h1 className="text-xl font-medium text-gray-800">
