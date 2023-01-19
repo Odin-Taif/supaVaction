@@ -1,11 +1,11 @@
-import { Fragment, useState } from 'react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import Link from 'next/link';
-import Image from 'next/image';
-import PropTypes from 'prop-types';
-import AuthModal from './AuthModal';
-import { Menu, Transition } from '@headlessui/react';
+import { Fragment, useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import PropTypes from "prop-types";
+import AuthModal from "./AuthModal";
+import { Menu, Transition } from "@headlessui/react";
 import {
   HeartIcon,
   HomeIcon,
@@ -13,27 +13,27 @@ import {
   PlusIcon,
   SparklesIcon,
   UserIcon,
-} from '@heroicons/react/outline';
-import { ChevronDownIcon } from '@heroicons/react/solid';
+} from "@heroicons/react/outline";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
 const menuItems = [
   {
-    label: 'List a new home',
+    label: "List a new home",
     icon: PlusIcon,
-    href: '/list',
+    href: "/list",
   },
   {
-    label: 'My homes',
+    label: "My homes",
     icon: HomeIcon,
-    href: '/homes',
+    href: "/homes",
   },
   {
-    label: 'Favorites',
+    label: "Favorites",
     icon: HeartIcon,
-    href: '/favorites',
+    href: "/favorites",
   },
   {
-    label: 'Logout',
+    label: "Logout",
     icon: LogoutIcon,
     onClick: () => null,
   },
@@ -54,10 +54,7 @@ const Layout = ({ children = null }) => {
     <>
       <Head>
         <title>SupaVacation | The Modern Dev</title>
-        <meta
-          name="title"
-          content="Learn how to Build a Fullstack App with Next.js, PlanetScale & Prisma | The Modern Dev"
-        />
+        <meta name="title" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -88,7 +85,7 @@ const Layout = ({ children = null }) => {
                         {user?.image ? (
                           <Image
                             src={user?.image}
-                            alt={user?.name || 'Avatar'}
+                            alt={user?.name || "Avatar"}
                             layout="fill"
                           />
                         ) : (
@@ -112,7 +109,7 @@ const Layout = ({ children = null }) => {
                             {user?.image ? (
                               <Image
                                 src={user?.image}
-                                alt={user?.name || 'Avatar'}
+                                alt={user?.name || "Avatar"}
                                 layout="fill"
                               />
                             ) : (
@@ -175,7 +172,7 @@ const Layout = ({ children = null }) => {
 
         <main className="flex-grow container mx-auto">
           <div className="px-4 py-12">
-            {typeof children === 'function' ? children(openModal) : children}
+            {typeof children === "function" ? children(openModal) : children}
           </div>
         </main>
 

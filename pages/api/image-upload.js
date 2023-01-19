@@ -37,6 +37,7 @@ export default async function handler(req, res) {
       const path = `${fileName}.${ext}`;
 
       const { data, error: uploadError } = await supabase.storage
+
         .from(process.env.SUPABASE_BUCKET)
         .upload(path, decode(base64FileData), {
           contentType,
