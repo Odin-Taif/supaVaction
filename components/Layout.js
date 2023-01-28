@@ -54,7 +54,10 @@ const Layout = ({ children = null }) => {
     <>
       <Head>
         <title>SupaVacation | The Modern Dev</title>
-        <meta name="title" content="" />
+        <meta
+          name="title"
+          content="Learn how to Build a Fullstack App with Next.js, PlanetScale & Prisma | The Modern Dev"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
