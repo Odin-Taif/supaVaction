@@ -1,22 +1,23 @@
-import { Fragment, useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { toast } from 'react-hot-toast';
-import { Formik, Form } from 'formik';
-import { Dialog, Transition } from '@headlessui/react';
-import { SparklesIcon, MailOpenIcon, XIcon } from '@heroicons/react/outline';
-import Input from './Input';
+import { Fragment, useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { toast } from "react-hot-toast";
+import { Formik, Form } from "formik";
+import { Dialog, Transition } from "@headlessui/react";
+import { SparklesIcon, MailOpenIcon, XIcon } from "@heroicons/react/outline";
+import { useSession, signIn, signOut } from "next-auth/react";
+import Input from "./Input";
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string()
     .trim()
-    .email('Invalid email')
-    .required('This field is required'),
+    .email("Invalid email")
+    .required("This field is required"),
 });
 
-const Confirm = ({ show = false, email = '' }) => (
+const Confirm = ({ show = false, email = "" }) => (
   <Transition appear show={show} as={Fragment}>
     <div className="fixed inset-0 z-50">
       <Transition.Child
@@ -50,7 +51,7 @@ const Confirm = ({ show = false, email = '' }) => (
             </h3>
 
             <p className="text-lg text-center mt-4">
-              We emailed a magic link to <strong>{email ?? ''}</strong>.
+              We emailed a magic link to <strong>{email ?? ""}</strong>.
               <br />
               Check your inbox and click the link in the email to login or sign
               up.
@@ -70,13 +71,26 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
   const signInWithEmail = async ({ email }) => {
     // TODO: Perform email auth
   };
-
   const signInWithGoogle = () => {
-    // TODO: Perform Google auth
+    toast.loading("Redirecting...");
+    setDisabled(true);
+    // Perform sign in
+    signIn("google", {
+      callbackUrl: window.location.href,
+    });
+  };
+
+  const signInWithLinkedin = () => {
+    toast.loading("Redirecting...");
+    setDisabled(true);
+    // Perform sign in
+    signIn("linkedin", {
+      callbackUrl: window.location.href,
+    });
   };
 
   const closeModal = () => {
-    if (typeof onClose === 'function') {
+    if (typeof onClose === "function") {
       onClose();
     }
   };
@@ -148,7 +162,7 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
 
               <div className="py-12">
                 <div className="px-4 sm:px-12">
-                  <div className="flex justify-center">
+                  {/* <div className="flex justify-center">
                     <Link href="/">
                       <a className="flex items-center space-x-1">
                         <SparklesIcon className="shrink-0 w-8 h-8 text-rose-500" />
@@ -157,13 +171,13 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
                         </span>
                       </a>
                     </Link>
-                  </div>
+                  </div> */}
 
                   <Dialog.Title
                     as="h3"
                     className="mt-6 font-bold text-lg sm:text-2xl text-center"
                   >
-                    {showSignIn ? 'Welcome back!' : 'Create your account'}
+                    {showSignIn ? "Welcome back!" : "Create your account"}
                   </Dialog.Title>
 
                   {!showSignIn ? (
@@ -174,11 +188,25 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
                   ) : null}
 
                   <div className="mt-10">
-                    {/* Sign with Google */}
+                    {/* Sign with Linkedin */}
+                    {/* <Link href={"http://localhost:3000/api/auth/signin"}> */}
+                    <button
+                      disabled={disabled}
+                      onClick={() => signInWithLinkedin()}
+                      className="h-[46px] w-full mx-auto border rounded-md p-2 flex justify-center items-center space-x-2 text-gray-500 hover:text-gray-600 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-400 focus:ring-opacity-25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500 disabled:hover:bg-transparent disabled:hover:border-gray-200 transition-colors"
+                    >
+                      <Image
+                        src="/linkedin.svg"
+                        alt="Linkedin"
+                        width={32}
+                        height={32}
+                      />
+                      <span>Sign {showSignIn ? "in" : "up"} with Google</span>
+                    </button>
                     <button
                       disabled={disabled}
                       onClick={() => signInWithGoogle()}
-                      className="h-[46px] w-full mx-auto border rounded-md p-2 flex justify-center items-center space-x-2 text-gray-500 hover:text-gray-600 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-400 focus:ring-opacity-25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500 disabled:hover:bg-transparent disabled:hover:border-gray-200 transition-colors"
+                      className="h-[46px] w-full my-3 mx-auto border rounded-md p-2 flex justify-center items-center space-x-2 text-gray-500 hover:text-gray-600 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-400 focus:ring-opacity-25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-gray-500 disabled:hover:bg-transparent disabled:hover:border-gray-200 transition-colors"
                     >
                       <Image
                         src="/google.svg"
@@ -186,12 +214,12 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
                         width={32}
                         height={32}
                       />
-                      <span>Sign {showSignIn ? 'in' : 'up'} with Google</span>
+                      <span>Sign {showSignIn ? "in" : "up"} with Google</span>
                     </button>
-
+                    {/* </Link> */}
                     {/* Sign with email */}
                     <Formik
-                      initialValues={{ email: '' }}
+                      initialValues={{ email: "" }}
                       validationSchema={SignInSchema}
                       validateOnBlur={false}
                       onSubmit={signInWithEmail}
@@ -212,14 +240,14 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
                             className="mt-6 w-full bg-rose-600 text-white py-2 px-8 rounded-md focus:outline-none focus:ring-4 focus:ring-rose-600 focus:ring-opacity-50 hover:bg-rose-500 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-rose-600"
                           >
                             {isSubmitting
-                              ? 'Loading...'
-                              : `Sign ${showSignIn ? 'in' : 'up'}`}
+                              ? "Loading..."
+                              : `Sign ${showSignIn ? "in" : "up"}`}
                           </button>
 
                           <p className="mt-2 text-center text-sm text-gray-500">
                             {showSignIn ? (
                               <>
-                                Don&apos;t have an account yet?{' '}
+                                Don&apos;t have an account yet?{" "}
                                 <button
                                   type="button"
                                   disabled={disabled}
@@ -235,7 +263,7 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
                               </>
                             ) : (
                               <>
-                                Already have an account?{' '}
+                                Already have an account?
                                 <button
                                   type="button"
                                   disabled={disabled}
@@ -254,7 +282,7 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
 
                           <Confirm
                             show={showConfirm}
-                            email={values?.email ?? ''}
+                            email={values?.email ?? ""}
                           />
                         </Form>
                       )}
