@@ -86,3 +86,26 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+/*
+  Warnings:
+
+  - Added the required column `ownerId` to the `Home` table without a default value. This is not possible if the table is not empty.
+
+*/
+/* AlterTable */
+ALTER TABLE "Home" ADD COLUMN "ownerId" TEXT NOT NULL;
+
+/* AddForeignKey */
+ALTER TABLE "Home" ADD CONSTRAINT "Home_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+/* AlterTable - Add ownerId as an optional column */
+ALTER TABLE "Home" ADD COLUMN "ownerId" TEXT;
+
+/* UpdateData - Add default owner value to existing homes */
+UPDATE "Home" SET "ownerId" = '<YOUR_USER_ID>' WHERE "ownerId" IS NULL;
+
+/* AlterColumn - Change ownerId to a required column */
+ALTER TABLE "Home" ALTER COLUMN "ownerId" SET NOT NULL;
+
+/* AddForeignKey */
+ALTER TABLE "Home" ADD CONSTRAINT "Home_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
