@@ -19,6 +19,7 @@ const Card = ({
       <div className="relative">
         <div className="bg-gray-200 rounded-lg shadow overflow-hidden aspect-w-16 aspect-h-9">
           {image ? (
+            s
             <Image
               src={image}
               alt={title}
