@@ -1,4 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
+// pages/api/image-upload.jss
+import { supabase } from "@/lib/supabase";
 import { nanoid } from "nanoid";
 import { decode } from "base64-arraybuffer";
 
@@ -9,10 +10,6 @@ export const config = {
     },
   },
 };
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
 
 export default async function handler(req, res) {
   // Upload image to Supabase

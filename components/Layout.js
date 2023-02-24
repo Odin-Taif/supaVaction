@@ -45,14 +45,13 @@ const Layout = ({ children = null }) => {
   const user = session?.user;
   const isLoadingUser = status === "loading";
   const [showModal, setShowModal] = useState(false);
-
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
   return (
     <>
       <Head>
-        <title>SupaVacation | The Modern Dev</title>
+        <title> SupaVacation | The Modern Dev</title>
         <meta
           name="title"
           content="Learn how to Build a Fullstack App with Next.js, PlanetScale & Prisma | The Modern Dev"
@@ -185,7 +184,6 @@ const Layout = ({ children = null }) => {
             {typeof children === "function" ? children(openModal) : children}
           </div>
         </main>
-
         <AuthModal show={showModal} onClose={closeModal} />
       </div>
     </>
