@@ -33,6 +33,7 @@ export default NextAuth({
     //   maxAge: 10 * 60, // Magic links are valid for 10 min only
     // }),
   ],
+  secret: process.env.NEXT_PUBLIC_SECRET,
   adapter: PrismaAdapter(prisma),
   pages: {
     signIn: "/",
