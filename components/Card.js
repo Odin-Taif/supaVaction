@@ -51,7 +51,7 @@ const Card = ({
       <ol className="mt-1 inline-flex items-center space-x-1 text-gray-500">
         <li>
           <span>{guests ?? 0} guests</span>
-          <span aria-hidden="true"> · </span>
+          <span aria-hidden="true"> ·s </span>
         </li>
         <li>
           <span>{beds ?? 0} beds</span>
